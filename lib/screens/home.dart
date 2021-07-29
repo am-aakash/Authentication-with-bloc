@@ -11,20 +11,32 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final authBloc = BlocProvider.of<AuthBloc>(context);
     return Scaffold(
-        appBar: AppBar(title: Text('HomePage'), centerTitle: true),
+        backgroundColor: Colors.black,
+        appBar: AppBar(
+          title: Text('HomePage'),
+          centerTitle: true,
+          leading: IconButton(
+            onPressed: () {
+              authBloc.add(UserLoggedOut());
+            },
+            icon: Icon(Icons.arrow_back_ios),
+          ),
+        ),
         body: Center(
           child: Column(
             children: <Widget>[
+              const SizedBox(height: 30),
               Text(
                 'Welcome, ${user.name}',
-                style: TextStyle(fontSize: 24),
+                style: TextStyle(fontSize: 24, color: Colors.white),
               ),
-              const SizedBox(
-                height: 12,
-              ),
+              const SizedBox(height: 12),
               MaterialButton(
                 textColor: Theme.of(context).primaryColor,
-                child: Text('Logout'),
+                child: Text(
+                  'Logout',
+                  style: TextStyle(fontSize: 18, color: Colors.purple[300]),
+                ),
                 onPressed: () {
                   // Add UserLoggedOut to authentication event stream.
                   authBloc.add(UserLoggedOut());

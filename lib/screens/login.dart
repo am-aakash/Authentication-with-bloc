@@ -8,35 +8,32 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        minimum: EdgeInsets.all(15),
-        child: BlocBuilder<AuthBloc, AuthState>(
-          builder: (context, state) {
-            final authBloc = BlocProvider.of<AuthBloc>(context);
-            if (state is NotAuthenticated) {
-              return _AuthForm(); // show authentication form
-            }
-            if (state is AuthFailure) {
-              // show error message
-              return Center(
-                  child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Text(state.message),
-                  MaterialButton(
-                    textColor: Theme.of(context).primaryColor,
-                    child: Text('Retry'),
-                    onPressed: () {
-                      authBloc.add(AppLoaded());
-                    },
-                  )
-                ],
-              ));
-            } else
-              return Center(child: Text("Some Unknown Error"));
-          },
-        ),
+      body: BlocBuilder<AuthBloc, AuthState>(
+        builder: (context, state) {
+          final authBloc = BlocProvider.of<AuthBloc>(context);
+          if (state is NotAuthenticated) {
+            return _AuthForm(); // show authentication form
+          }
+          if (state is AuthFailure) {
+            // show error message
+            return Center(
+                child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Text(state.message),
+                MaterialButton(
+                  textColor: Theme.of(context).primaryColor,
+                  child: Text('Retry'),
+                  onPressed: () {
+                    authBloc.add(AppLoaded());
+                  },
+                )
+              ],
+            ));
+          } else
+            return Center(child: CircularProgressIndicator());
+        },
       ),
     );
   }
@@ -99,77 +96,85 @@ class __SignInFormState extends State<_SignInForm> {
             );
           }
           return Scaffold(
+            backgroundColor: Colors.black,
             body: Center(
-              child: Form(
-                key: _key,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                child: SingleChildScrollView(
-                  child: Container(
-                    padding: EdgeInsets.only(left: 20, right: 20),
-                    height: MediaQuery.of(context).size.height / 2,
-                    width: MediaQuery.of(context).size.width / 1.2,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Colors.blue[100],
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        TextFormField(
-                          decoration: InputDecoration(
-                              enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(18.0),
-                                  borderSide:
-                                      BorderSide(color: Colors.black12)),
-                              focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(18),
-                                  borderSide: BorderSide(color: Colors.black)),
-                              labelText: 'Email'),
-                          controller: _emailController,
-                          keyboardType: TextInputType.emailAddress,
-                          autocorrect: false,
-                          validator: (value) {
-                            if (value == null) {
-                              return 'Email is required.';
-                            }
-                            return null;
-                          },
-                        ),
-                        SizedBox(height: 30),
-                        TextFormField(
-                          decoration: InputDecoration(
-                              enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(18.0),
-                                  borderSide:
-                                      BorderSide(color: Colors.black12)),
-                              focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(18),
-                                  borderSide:
-                                      const BorderSide(color: Colors.black)),
-                              labelText: 'Password'),
-                          obscureText: true,
-                          controller: _passwordController,
-                          validator: (value) {
-                            if (value == null) {
-                              return 'Password is required.';
-                            }
-                            return null;
-                          },
-                        ),
-                        SizedBox(height: 16),
-                        MaterialButton(
-                          color: Theme.of(context).primaryColor,
-                          textColor: Colors.white,
-                          padding: const EdgeInsets.all(16),
-                          shape: new RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.circular(8.0)),
-                          child: Text('LOG IN'),
-                          onPressed: state is LoginLoading
-                              ? () {}
-                              : _onLoginButtonPressed,
-                        )
-                      ],
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Form(
+                  key: _key,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  child: SingleChildScrollView(
+                    child: Container(
+                      padding: EdgeInsets.only(left: 10, right: 10),
+                      height: MediaQuery.of(context).size.height / 3.2,
+                      width: MediaQuery.of(context).size.width / 0.8,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.blueGrey[100],
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          SizedBox(height: 16),
+                          TextFormField(
+                            decoration: InputDecoration(
+                                enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(18.0),
+                                    borderSide:
+                                        BorderSide(color: Colors.black54)),
+                                focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(18),
+                                    borderSide:
+                                        BorderSide(color: Colors.black)),
+                                labelText: 'Email'),
+                            controller: _emailController,
+                            keyboardType: TextInputType.emailAddress,
+                            autocorrect: false,
+                            validator: (value) {
+                              if (value == null) {
+                                return 'Email is required.';
+                              }
+                              return null;
+                            },
+                          ),
+                          SizedBox(height: 30),
+                          TextFormField(
+                            decoration: InputDecoration(
+                                enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(18.0),
+                                    borderSide:
+                                        BorderSide(color: Colors.black54)),
+                                focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(18),
+                                    borderSide:
+                                        const BorderSide(color: Colors.black)),
+                                labelText: 'Password'),
+                            obscureText: true,
+                            controller: _passwordController,
+                            validator: (value) {
+                              if (value == null) {
+                                return 'Password is required.';
+                              } else if (value.length < 8) {
+                                return 'Password length should be greater than 8 chars';
+                              }
+                              return null;
+                            },
+                          ),
+                          SizedBox(height: 16),
+                          MaterialButton(
+                            color: Theme.of(context).primaryColor,
+                            textColor: Colors.white,
+                            padding: const EdgeInsets.all(16),
+                            shape: new RoundedRectangleBorder(
+                                borderRadius: new BorderRadius.circular(8.0)),
+                            child: Text('LOG IN'),
+                            onPressed: state is LoginLoading
+                                ? () {}
+                                : _onLoginButtonPressed,
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
