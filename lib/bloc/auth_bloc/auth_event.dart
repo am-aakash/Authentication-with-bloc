@@ -8,9 +8,10 @@ abstract class AuthEvent extends Equatable {
 }
 
 class AppLoaded extends AuthEvent {}
+//Fired when the app starts
 
-// Fired when a user has successfully logged in
 class UserLoggedIn extends AuthEvent {
+//Fired when user enters correct email and password
   final User user;
 
   UserLoggedIn({required this.user});
